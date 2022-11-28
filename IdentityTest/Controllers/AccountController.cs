@@ -3,6 +3,10 @@ using IdentityTest.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace IdentityTest.Controllers
 {
@@ -13,11 +17,17 @@ namespace IdentityTest.Controllers
         private readonly UserManager<Users> _userManager;
         private readonly SignInManager<Users> _signInManager;
         private readonly ILogger<AccountController> _logger;
-        public AccountController(UserManager<Users> userManager, SignInManager<Users> signInManager, ILogger<AccountController> logger)
+        private readonly IConfiguration _configuration;
+        public AccountController(
+            UserManager<Users> userManager,
+            SignInManager<Users> signInManager,
+            ILogger<AccountController> logger,
+            IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _configuration = configuration;
         }
         [HttpPost("Register")]
         public async Task<IActionResult> Register(UserDto input)
@@ -44,7 +54,30 @@ namespace IdentityTest.Controllers
             {
                 return Unauthorized(input);
             }
-            return Accepted();
+            var token = GetToken();
+            return Ok(new
+            {
+                token = new JwtSecurityTokenHandler().WriteToken(token),
+                expiration = token.ValidTo
+            });
+        }
+
+
+        private JwtSecurityToken GetToken()
+        {
+
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["JWT:ValidIssuer"],
+                audience: _configuration["JWT:ValidAudience"],
+                expires: DateTime.Now.AddHours(3),
+                //claims: authClaims,
+                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+                );
+            return token;
+
+
         }
     }
 }
