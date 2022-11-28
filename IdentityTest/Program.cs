@@ -24,7 +24,7 @@ builder.Services.AddIdentity<Users, IdentityRole>(options =>
     options.User.RequireUniqueEmail = false;
 })
     .AddEntityFrameworkStores<SeedingDbTestContext>()
-    ;//.AddDefaultTokenProviders();
+    .AddDefaultTokenProviders();
 
 // Adding Authentication
 builder.Services.AddAuthentication(options =>

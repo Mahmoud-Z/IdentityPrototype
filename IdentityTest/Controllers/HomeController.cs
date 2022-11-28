@@ -1,4 +1,5 @@
 ﻿using IdentityTest.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,7 @@ namespace IdentityTest.Controllers
     [Route("api/[controller]")]
     [ApiController]
     //[Authorize]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
     public class HomeController : ControllerBase
     {
         private readonly SeedingDbTestContext _context;
@@ -16,8 +17,18 @@ namespace IdentityTest.Controllers
         {
             _context = context;
         }
-        [HttpPost("GetAll")]
-        public async Task<List<Document>> Register()
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+        [HttpGet("GetAllCookies")]
+        public async Task<List<Document>> RegisterCookies()
+        {
+            return _context.Documents.ToList();
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
+
+        [HttpGet("GetAllJwt")]
+        public async Task<List<Document>> RegisterJwt()
         {
             return _context.Documents.ToList();
         }
