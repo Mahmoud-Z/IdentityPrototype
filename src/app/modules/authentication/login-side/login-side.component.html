@@ -1,0 +1,14 @@
+<div class="py-5 px-5 login-form login-side w-100">
+    <h3 class="fs-2 my-4 text-center">Login</h3>
+    <form [formGroup]="trialForm" class="my-4 d-flex flex-column align-items-center" (ngSubmit)="login()">
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email" placeholder="name@example.com" formControlName="email">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">password</label>
+            <input type="password" class="form-control" id="password" placeholder="*******" formControlName="password">
+        </div>
+        <button type="submit" class="btn btn-success my-4 w-25">Login</button>
+    </form>
+</div>
