@@ -1,5 +1,7 @@
 ﻿using IdentityTest.Dtos;
 using IdentityTest.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +20,7 @@ namespace IdentityTest.Controllers
         private readonly SignInManager<Users> _signInManager;
         private readonly ILogger<AccountController> _logger;
         private readonly IConfiguration _configuration;
+
         public AccountController(
             UserManager<Users> userManager,
             SignInManager<Users> signInManager,
@@ -50,6 +53,8 @@ namespace IdentityTest.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             var result = await _signInManager.PasswordSignInAsync(input.Username, input.Password, false, false);
+            //Response.Cookies.Delete(".AspNetCore.Identity.Application");
+           
             if (!result.Succeeded)
             {
                 return Unauthorized(input);
@@ -61,6 +66,7 @@ namespace IdentityTest.Controllers
                 expiration = token.ValidTo
             });
         }
+
 
 
         private JwtSecurityToken GetToken()

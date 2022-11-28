@@ -17,7 +17,7 @@ namespace IdentityTest.Controllers
         {
             _context = context;
         }
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = "Identity.Application")]
         [HttpGet("GetAllCookies")]
         public async Task<List<Document>> RegisterCookies()
         {
@@ -32,5 +32,7 @@ namespace IdentityTest.Controllers
         {
             return _context.Documents.ToList();
         }
+
+        
     }
 }

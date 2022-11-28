@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -25,6 +28,8 @@ builder.Services.AddIdentity<Users, IdentityRole>(options =>
 })
     .AddEntityFrameworkStores<SeedingDbTestContext>()
     .AddDefaultTokenProviders();
+
+//builder.Services.AddAuthentication();
 
 // Adding Authentication
 builder.Services.AddAuthentication(options =>
@@ -57,7 +62,7 @@ using (var scope = app.Services.CreateScope())
     var context = scope.ServiceProvider.GetRequiredService<SeedingDbTestContext>();
     //if (!context.Database.EnsureCreated())
     //{
-        context.Database.Migrate();
+    context.Database.Migrate();
     //}
     services.seedData();
 };
