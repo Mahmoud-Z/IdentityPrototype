@@ -24,9 +24,9 @@ namespace IdentityTest.Controllers
             return _context.Documents.ToList();
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 
-
+        [Authorize]
         [HttpGet("GetAllJwt")]
         public async Task<List<Document>> RegisterJwt()
         {

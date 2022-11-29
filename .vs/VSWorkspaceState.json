@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\IdentityTest",
+    "\\IdentityTest\\Controllers"
   ],
-  "SelectedNode": "\\IdentityTest.sln",
+  "SelectedNode": "\\IdentityTest\\Controllers\\AccountController.cs",
   "PreviewInSolutionExplorer": false
 }
