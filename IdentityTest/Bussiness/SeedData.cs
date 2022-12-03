@@ -39,7 +39,7 @@ namespace IdentityTest.Bussiness
                     context.SaveChanges();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }
