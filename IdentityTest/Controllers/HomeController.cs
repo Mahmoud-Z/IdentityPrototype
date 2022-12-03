@@ -28,14 +28,20 @@ namespace IdentityTest.Controllers
 
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 
-        [Authorize(Roles = "Admin")]
-        [HttpGet("GetAllJwt")]
-        public async Task<List<Document>> RegisterJwt()
+        [Authorize(Roles = "User")]
+        [HttpGet("GetAllJwtUser")]
+        public async Task<List<Document>> RegisterJwtUser()
         {
             return _context.Documents.ToList();
         }
 
-     
+        [Authorize(Roles = "Admin")]
+        [HttpGet("GetAllJwtAdmin")]
+        public async Task<List<Document>> RegisterJwtAdmin()
+        {
+            return _context.Documents.ToList();
+        }
+
 
     }
 }
